@@ -8,22 +8,11 @@ steps:
 - bash: az --version
   displayName: 'Show Azure CLI version'
 
-# Install Azure DevOps extension
-- bash: az extension add -n azure-devops
-  displayName: 'Install Azure DevOps extension'
+- bash: az vm list -d | python toggle.py
+  displayName: 'Toggling from Python'
 
-- bash: echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
-  env:
-    AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
-  displayName: 'Login Azure DevOps Extension'
-
-- bash: az devops configure --defaults organization=$(System.TeamFoundationCollectionUri) project=$(System.TeamProject) --use-git-aliases true
-  displayName: 'Set default Azure DevOps organization and project'
-
-- bash: |
-    az pipelines build list
-    git pr list
-  displayName: 'Show build list and PRs'
+- bash: sleep 120
+  displayName: 'Wait for 2 minutes'
 
 - bash: az vm list -d | python toggle.py
   displayName: 'Toggling from Python'

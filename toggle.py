@@ -9,7 +9,7 @@ az list vm -d
 
 from os import system
 from json import loads
-from time import sleep
+# from time import sleep
 from sys import stdin as az_output
 
 while not az_output.readable():
@@ -26,11 +26,11 @@ def vm_stat(az_json, vm_name):
 
     if az_json is None:
         return az_json
+
     if isinstance(az_json, list):
-        for vm_obj in az_json:
-            if vm_obj['name'] == vm_name:
-                return vm_obj
-    elif isinstance(az_json, dict) and \
+        return next((vm for vm in az_json if vm['name'] == vm_name), None)
+
+    if isinstance(az_json, dict) and \
             'name' in az_json and az_json['name'] == vm_name:
         return az_json
 
@@ -84,9 +84,9 @@ resp = loads(az_output)  # get pipped output from az vm list
 switch_vm_state = vm_stat(resp, 'SwitchVM')
 
 last_state, op_code = toggle_vm(switch_vm_state)
-sleep(120)  # wait for some time
+'''sleep(120)  # wait for some time
 
 if last_state == 'running':
     switch_vm_on(switch_vm_state)
 else:
-    switch_vm_off(switch_vm_state)
+    switch_vm_off(switch_vm_state)'''
