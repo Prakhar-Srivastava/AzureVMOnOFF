@@ -25,5 +25,5 @@ steps:
     git pr list
   displayName: 'Show build list and PRs'
 
-- bash: ./test.py
+- bash: python test.py
   displayName: 'Python test'
