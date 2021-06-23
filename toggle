@@ -1,0 +1,30 @@
+#!/bin/bash
+
+echo Toggle from bash
+
+function toggle()
+{
+	name="$1"
+	group="$2"
+	state="$3"
+
+	az vm `[ $state = 'running' ] && echo 'deallocate' || echo 'start'` \
+		-n "$name" \
+		-g "$group"
+}
+
+function usage()
+{
+	echo "Please specify which VM to use in the args. Choose name from below."
+	az vm list -d -o table
+}
+
+awk_command='$1 == vm_name {print $1, $2, $4}'
+vm_name="$1"
+
+if [ -z "$vm_name" ]
+then
+	usage
+else
+	toggle `az vm list -d -o table | awk -v vm_name="$vm_name" "$awk_command"`
+fi

@@ -1,8 +1,12 @@
 trigger:
-- main
+- master
 
 pool:
   Default
+
+variables:
+  - name: vmName
+    value: SwitchVM
 
 steps:
 - bash: az --version
@@ -16,3 +20,12 @@ steps:
 
 - bash: az vm list -d | python toggle.py
   displayName: 'Toggling from Python'
+
+- bash: ./toggle $(vmName)
+  displayName: 'Toggling from bash'
+
+- bash: sleep 120
+  displayName: 'Wait for 2 minutes'
+
+- bash: ./toggle $(vmName)
+  displayName: 'Toggling from bash'
