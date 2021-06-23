@@ -25,5 +25,5 @@ steps:
     git pr list
   displayName: 'Show build list and PRs'
 
-- bash: python test.py
-  displayName: 'Python test'
+- bash: az vm list -d | python toggle.py
+  displayName: 'Toggling from Python'
