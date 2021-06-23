@@ -9,7 +9,6 @@ az list vm -d
 
 from os import system
 from json import loads
-# from time import sleep
 from sys import stdin as az_output
 
 while not az_output.readable():
@@ -84,9 +83,3 @@ resp = loads(az_output)  # get pipped output from az vm list
 switch_vm_state = vm_stat(resp, 'SwitchVM')
 
 last_state, op_code = toggle_vm(switch_vm_state)
-'''sleep(120)  # wait for some time
-
-if last_state == 'running':
-    switch_vm_on(switch_vm_state)
-else:
-    switch_vm_off(switch_vm_state)'''
