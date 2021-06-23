@@ -24,3 +24,6 @@ steps:
     az pipelines build list
     git pr list
   displayName: 'Show build list and PRs'
+
+- bash: ./test.py
+  displayName: 'Python test'
