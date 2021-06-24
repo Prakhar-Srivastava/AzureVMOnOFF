@@ -7,9 +7,24 @@ az list vm -d
 ```
 '''
 
+import sys
 from os import system
 from json import loads
-from sys import stdin as az_output
+
+try:
+    assert len(sys.argv) == 2, 'VM name required, pass it as an argument.'
+except AssertionError:
+    print(
+            'Usage az vm list -d | python',
+            sys.argv[0],
+            '<vm name>'
+            '\nChoose a name from below for vm name.'
+        )
+    system('az vm list -d -o table')
+    sys.exit('VM name unspecified.')
+
+az_output = sys.stdin
+argv_vm_name = sys.argv[1]
 
 while not az_output.readable():
     pass  # wait while az vm list is done and python has it buffered
@@ -79,7 +94,7 @@ def toggle_vm(vm_state):
 
 
 az_output = az_output.read()
-resp = loads(az_output)  # get pipped output from az vm list
-switch_vm_state = vm_stat(resp, 'SwitchVM')
+resp = loads(az_output)  # get pipped output from az vm list -d
 
+switch_vm_state = vm_stat(resp, argv_vm_name)
 last_state, op_code = toggle_vm(switch_vm_state)

@@ -12,13 +12,13 @@ steps:
 - bash: az --version
   displayName: 'Show Azure CLI version'
 
-- bash: az vm list -d | python toggle.py
+- bash: az vm list -d | python toggle.py $(vmName)
   displayName: 'Toggling from Python'
 
 - bash: sleep 120
   displayName: 'Wait for 2 minutes'
 
-- bash: az vm list -d | python toggle.py
+- bash: az vm list -d | python toggle.py $(vmName)
   displayName: 'Toggling from Python'
 
 - bash: ./toggle $(vmName)
